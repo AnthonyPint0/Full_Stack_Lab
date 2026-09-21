@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Dynamic List</title>
+
+    <style>
+      body {
+        font-family: Arial;
+        text-align: center;
+        margin: 40px;
+      }
+
+      input {
+        padding: 8px;
+      }
+
+      button {
+        padding: 8px 12px;
+        margin-left: 5px;
+        cursor: pointer;
+      }
+
+      li {
+        margin: 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h3>Dynamic List</h3>
+
+    <input type="text" id="item" placeholder="Enter item" />
+    <button onclick="addItem()">Add</button>
+
+    <ul id="list"></ul>
+    <p>Total elements: <span id="count">0</span></p>
+
+    <script>
+      function addItem() {
+        let text = document.getElementById("item").value;
+
+        if (text == "") return;
+
+        let li = document.createElement("li");
+        li.innerHTML = text;
+
+        // Create button dynamically
+        let btn = document.createElement("button");
+        btn.innerHTML = "Delete";
+
+        // Handle event dynamically
+        btn.onclick = function () {
+          li.remove();
+
+          document.getElementById("count").innerHTML =
+            document.getElementById("list").children.length;
+        };
+
+        li.appendChild(btn);
+        document.getElementById("list").appendChild(li);
+
+        // Update count
+        document.getElementById("count").innerHTML =
+          document.getElementById("list").children.length;
+
+        document.getElementById("item").value = "";
+      }
+    </script>
+  </body>
+</html>

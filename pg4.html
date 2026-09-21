@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Age Calculator</title>
+
+    <style>
+      body {
+        font-family: Arial;
+        text-align: center;
+        margin-top: 50px;
+      }
+
+      h3 {
+        color: blue;
+      }
+
+      input,
+      button {
+        padding: 8px;
+        margin: 5px;
+      }
+
+      button {
+        background: blue;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+
+      #result {
+        font-size: 18px;
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h3>Age Calculator</h3>
+
+    <input type="date" id="dob" />
+    <button id="btn">Calculate Age</button>
+
+    <p id="result"></p>
+
+    <script>
+      // Arrow function
+      const calculateAge = async () => {
+        let dob = new Date(document.getElementById("dob").value);
+        let today = new Date();
+
+        let years = today.getFullYear() - dob.getFullYear();
+        let months = today.getMonth() - dob.getMonth();
+        let days = today.getDate() - dob.getDate();
+
+        if (days < 0) {
+          months--;
+          days += new Date(today.getFullYear(), today.getMonth(), 0).getDate();
+        }
+
+        if (months < 0) {
+          years--;
+          months += 12;
+        }
+
+        document.getElementById("result").innerHTML =
+          "Age: " + years + " Years, " + months + " Months, " + days + " Days";
+      };
+
+      // Dynamic event handling
+      document.getElementById("btn").onclick = async () => {
+        await calculateAge();
+      };
+    </script>
+  </body>
+</html>

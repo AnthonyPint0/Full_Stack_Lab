@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Fibonacci Series</title>
+
+    <style>
+      body {
+        text-align: center;
+        font-family: Arial;
+        margin-top: 50px;
+      }
+
+      h3 {
+        color: blue;
+      }
+
+      p {
+        font-size: 18px;
+      }
+
+      button {
+        padding: 10px 20px;
+        background: blue;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+
+  <body>
+    <script>
+      // Create text dynamically
+      let h = document.createElement("h3");
+      h.innerHTML = "Fibonacci Series";
+      document.body.appendChild(h);
+
+      // Create paragraph dynamically
+      let p = document.createElement("p");
+      p.innerHTML = "Click the button to generate Fibonacci series";
+      document.body.appendChild(p);
+
+      // Create button dynamically
+      let btn = document.createElement("button");
+      btn.innerHTML = "Generate";
+      document.body.appendChild(btn);
+
+      // Recursive Fibonacci function
+      function fibonacci(n) {
+        if (n <= 1) return n;
+        return fibonacci(n - 1) + fibonacci(n - 2);
+      }
+
+      // Dynamic event handling
+      btn.onclick = function () {
+        let n = Number(prompt("Enter number of terms:"));
+        let result = "";
+
+        for (let i = 0; i < n; i++) {
+          result += fibonacci(i) + " ";
+        }
+
+        alert("Fibonacci Series: " + result);
+      };
+    </script>
+  </body>
+</html>

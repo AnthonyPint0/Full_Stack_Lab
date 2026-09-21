@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Number System Converter</title>
+
+    <style>
+      body {
+        font-family: Arial;
+        text-align: center;
+        margin-top: 50px;
+      }
+
+      h3 {
+        color: blue;
+      }
+
+      input,
+      select,
+      button {
+        padding: 8px;
+        margin: 5px;
+      }
+
+      button {
+        background: blue;
+        color: white;
+        border: none;
+      }
+
+      #result {
+        margin-top: 20px;
+        font-size: 18px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h3>Number System Converter</h3>
+
+    <input type="text" id="num" placeholder="Enter number" />
+
+    <select id="base">
+      <option value="10">Decimal</option>
+      <option value="2">Binary</option>
+      <option value="8">Octal</option>
+      <option value="16">Hexadecimal</option>
+    </select>
+
+    <button id="convert">Convert</button>
+
+    <div id="result"></div>
+
+    <script>
+      // Asynchronous arrow function
+      const convert = async () => {
+        let value = document.getElementById("num").value;
+        let base = Number(document.getElementById("base").value);
+
+        let decimal = parseFloat(value);
+
+        if (base != 10) decimal = parseInt(value, base);
+
+        let result =
+          "Decimal: " +
+          decimal +
+          "<br>" +
+          "Binary: " +
+          decimal.toString(2) +
+          "<br>" +
+          "Octal: " +
+          decimal.toString(8) +
+          "<br>" +
+          "Hexadecimal: " +
+          decimal.toString(16).toUpperCase();
+
+        document.getElementById("result").innerHTML = result;
+      };
+
+      // Event using arrow function
+      document.getElementById("convert").onclick = async () => {
+        await convert();
+      };
+    </script>
+  </body>
+</html>

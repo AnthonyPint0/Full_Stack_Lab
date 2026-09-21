@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Factorial Using Recursion</title>
+
+    <style>
+      body {
+        text-align: center;
+        font-family: Arial;
+        margin-top: 50px;
+      }
+
+      h3 {
+        color: blue;
+      }
+
+      p {
+        font-size: 18px;
+      }
+
+      button {
+        padding: 10px 20px;
+        background: blue;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+
+  <body>
+    <script>
+      // Create text dynamically
+      let h = document.createElement("h3");
+      h.innerHTML = "Factorial Calculator";
+      document.body.appendChild(h);
+
+      // Create paragraph dynamically
+      let p = document.createElement("p");
+      p.innerHTML = "Click the button to find factorial";
+      document.body.appendChild(p);
+
+      // Create button dynamically
+      let btn = document.createElement("button");
+      btn.innerHTML = "Find Factorial";
+      document.body.appendChild(btn);
+
+      // Recursive function
+      function factorial(n) {
+        if (n == 0 || n == 1) return 1;
+        return n * factorial(n - 1);
+      }
+
+      // Dynamic event
+      btn.onclick = function () {
+        let n = Number(prompt("Enter a number:"));
+
+        if (n >= 0 && Number.isInteger(n)) alert("Factorial = " + factorial(n));
+        else alert("Enter a valid positive integer.");
+      };
+    </script>
+  </body>
+</html>
