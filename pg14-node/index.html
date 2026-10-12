@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Student Records</title>
+    <style>
+      body {
+        font-family: Arial;
+        text-align: center;
+        margin-top: 60px;
+      }
+
+      input,
+      button {
+        padding: 10px;
+        margin: 5px;
+      }
+
+      button {
+        background: blue;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Student Record Search</h2>
+
+    <form action="/search" method="POST">
+      <input
+        type="number"
+        name="id"
+        placeholder="Enter Student ID (optional)"
+      />
+      <button type="submit">Display Records</button>
+    </form>
+
+    <p>Leave the ID blank to display all records.</p>
+  </body>
+</html>

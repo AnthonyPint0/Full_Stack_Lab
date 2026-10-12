@@ -1,0 +1,15 @@
+CREATE DATABASE payroll;
+USE payroll;
+
+CREATE TABLE employees (
+empid VARCHAR(20) PRIMARY KEY,
+name VARCHAR(50),
+basic DECIMAL(10,2),
+da DECIMAL(10,2),
+hra DECIMAL(10,2),
+epf DECIMAL(10,2),
+loan DECIMAL(10,2),
+pt DECIMAL(10,2),
+gross DECIMAL(10,2),
+net DECIMAL(10,2)
+);

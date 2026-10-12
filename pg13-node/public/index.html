@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Calculator</title>
+    <style>
+      body {
+        font-family: Arial;
+        text-align: center;
+        margin-top: 60px;
+      }
+
+      input,
+      select,
+      button {
+        padding: 10px;
+        margin: 8px;
+      }
+
+      button {
+        background: blue;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Arithmetic Calculator</h2>
+
+    <form action="/calculate" method="POST">
+      <input
+        type="number"
+        step="any"
+        name="a"
+        placeholder="First number"
+        required
+      />
+
+      <input
+        type="number"
+        step="any"
+        name="b"
+        placeholder="Second number"
+        required
+      />
+
+      <br />
+
+      <select name="op">
+        <option value="add">Addition</option>
+        <option value="sub">Subtraction</option>
+        <option value="mul">Multiplication</option>
+        <option value="div">Division</option>
+      </select>
+
+      <button type="submit">Calculate</button>
+    </form>
+
+    <p id="result"></p>
+  </body>
+</html>

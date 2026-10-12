@@ -1,14 +1,14 @@
 <!doctype html>
 <html>
   <head>
-    <title>Arithmetic Operations</title>
+    <title>Arithmetic Calculator</title>
 
     <style>
       body {
         display: flex;
         justify-content: center;
         align-items: center;
-        min-height: 100vh;
+        height: 100vh;
         font-family: Arial;
       }
 
@@ -36,10 +36,6 @@
         border: none;
         cursor: pointer;
       }
-
-      #result {
-        font-size: 20px;
-      }
     </style>
   </head>
 
@@ -48,8 +44,8 @@
       <h2>Arithmetic Calculator</h2>
 
       <div class="inputs">
-        <input type="number" id="num1" placeholder="Number 1" />
-        <input type="number" id="num2" placeholder="Number 2" />
+        <input type="number" id="n1" placeholder="Number 1" />
+        <input type="number" id="n2" placeholder="Number 2" />
       </div>
 
       <div class="buttons">
@@ -63,28 +59,27 @@
     </div>
 
     <script>
-      let n1 = () => Number(document.getElementById("num1").value);
-      let n2 = () => Number(document.getElementById("num2").value);
+      const n1 = () => Number(document.getElementById("n1").value);
+      const n2 = () => Number(document.getElementById("n2").value);
 
-      let display = (value) => {
-        document.getElementById("result").innerHTML = "Result: " + value;
+      const show = (value) => {
+        document.getElementById("result").textContent = "Result: " + value;
       };
 
       document
         .getElementById("add")
-        .addEventListener("click", () => display(n1() + n2()));
+        .addEventListener("click", () => show(n1() + n2()));
 
       document
         .getElementById("sub")
-        .addEventListener("click", () => display(n1() - n2()));
+        .addEventListener("click", () => show(n1() - n2()));
 
       document
         .getElementById("mul")
-        .addEventListener("click", () => display(n1() * n2()));
+        .addEventListener("click", () => show(n1() * n2()));
 
       document.getElementById("div").addEventListener("click", () => {
-        if (n2() == 0) display("Cannot divide by zero");
-        else display(n1() / n2());
+        show(n2() === 0 ? "Cannot divide by zero" : n1() / n2());
       });
     </script>
   </body>

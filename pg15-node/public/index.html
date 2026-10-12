@@ -1,0 +1,155 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Employee Payroll</title>
+    <style>
+      body {
+        font-family: Arial;
+        text-align: center;
+        margin: 25px;
+      }
+      input,
+      button {
+        padding: 8px;
+        margin: 5px;
+      }
+      table {
+        margin: 20px auto;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        border: 1px solid black;
+        padding: 7px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Employee Payroll CRUD</h2>
+
+    <input id="id" placeholder="Employee ID" />
+    <input id="name" placeholder="Name" />
+    <input id="basic" type="number" min="0" placeholder="Basic Pay" />
+
+    <button onclick="save()">Add / Update</button>
+    <button onclick="clearForm()">Clear</button>
+
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Basic</th>
+          <th>DA</th>
+          <th>HRA</th>
+          <th>EPF</th>
+          <th>Loan</th>
+          <th>PT</th>
+          <th>Gross</th>
+          <th>Net</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="list"></tbody>
+    </table>
+
+    <script>
+      let editing = false;
+
+      const load = async () => {
+        const res = await fetch("/employees");
+        const data = await res.json();
+        const list = document.getElementById("list");
+        list.innerHTML = "";
+
+        data.forEach((e) => {
+          const row = document.createElement("tr");
+          [
+            e.empid,
+            e.name,
+            e.basic,
+            e.da,
+            e.hra,
+            e.epf,
+            e.loan,
+            e.pt,
+            e.gross,
+            e.net,
+          ].forEach((value) => {
+            const td = document.createElement("td");
+            td.textContent = value;
+            row.appendChild(td);
+          });
+
+          const td = document.createElement("td");
+          const edit = document.createElement("button");
+          edit.textContent = "Edit";
+          edit.onclick = () => {
+            document.getElementById("id").value = e.empid;
+            document.getElementById("id").disabled = true;
+            document.getElementById("name").value = e.name;
+            document.getElementById("basic").value = e.basic;
+            editing = true;
+          };
+
+          const del = document.createElement("button");
+          del.textContent = "Delete";
+          del.onclick = async () => {
+            await fetch("/employees/" + encodeURIComponent(e.empid), {
+              method: "DELETE",
+            });
+            load();
+          };
+
+          td.append(edit, del);
+          row.appendChild(td);
+          list.appendChild(row);
+        });
+      };
+
+      const save = async () => {
+        const empid = document.getElementById("id").value.trim();
+        const name = document.getElementById("name").value.trim();
+        const basic = document.getElementById("basic").value;
+
+        if (
+          !empid ||
+          !name ||
+          basic === "" ||
+          !Number.isFinite(Number(basic)) ||
+          Number(basic) < 0
+        ) {
+          alert("Enter valid details");
+          return;
+        }
+
+        const res = await fetch(
+          editing ? "/employees/" + encodeURIComponent(empid) : "/employees",
+          {
+            method: editing ? "PUT" : "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ empid, name, basic }),
+          },
+        );
+
+        const message = await res.text();
+        alert(message);
+
+        if (res.ok) {
+          clearForm();
+          load();
+        }
+      };
+
+      const clearForm = () => {
+        document.getElementById("id").value = "";
+        document.getElementById("id").disabled = false;
+        document.getElementById("name").value = "";
+        document.getElementById("basic").value = "";
+        editing = false;
+      };
+
+      load();
+    </script>
+  </body>
+</html>

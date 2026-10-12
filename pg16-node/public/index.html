@@ -1,0 +1,140 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Employee Payroll</title>
+    <style>
+      body {
+        font-family: Arial;
+        text-align: center;
+        margin: 25px;
+      }
+      input,
+      button {
+        padding: 8px;
+        margin: 5px;
+      }
+      button {
+        cursor: pointer;
+      }
+      table {
+        margin: 20px auto;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        border: 1px solid black;
+        padding: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Employee Payroll CRUD</h2>
+
+    <input id="id" placeholder="Employee ID" />
+    <input id="name" placeholder="Name" />
+    <input id="basic" type="number" placeholder="Basic Pay" />
+
+    <button onclick="save()">Add / Update</button>
+    <button onclick="load()">View Employees</button>
+
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Basic</th>
+          <th>DA</th>
+          <th>HRA</th>
+          <th>EPF</th>
+          <th>Loan</th>
+          <th>PT</th>
+          <th>Gross</th>
+          <th>Net</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="list"></tbody>
+    </table>
+
+    <script>
+      let editing = false;
+
+      async function load() {
+        const res = await fetch("/employees");
+        const employees = await res.json();
+        list.innerHTML = "";
+
+        employees.forEach((e) => {
+          list.innerHTML += `<tr>
+          <td>${e.empid}</td><td>${e.name}</td>
+          <td>${e.basic}</td><td>${e.da}</td>
+          <td>${e.hra}</td><td>${e.epf}</td>
+          <td>${e.loan}</td><td>${e.pt}</td>
+          <td>${e.gross}</td><td>${e.net}</td>
+          <td>
+            <button onclick="edit('${e.empid}',
+              '${e.name}',${e.basic})">Edit</button>
+            <button onclick="del('${e.empid}')">Delete</button>
+          </td>
+        </tr>`;
+        });
+      }
+
+      async function save() {
+        const empid = document.getElementById("id").value.trim();
+        const name = document.getElementById("name").value.trim();
+        const basic = Number(document.getElementById("basic").value);
+
+        if (
+          !empid ||
+          !name ||
+          document.getElementById("basic").value === "" ||
+          !Number.isFinite(basic) ||
+          basic < 0
+        ) {
+          alert("Enter valid employee details");
+          return;
+        }
+
+        const res = await fetch(
+          editing ? "/employees/" + encodeURIComponent(empid) : "/employees",
+          {
+            method: editing ? "PUT" : "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ empid, name, basic }),
+          },
+        );
+
+        const data = await res.json();
+        if (!res.ok) {
+          alert(data.error || "Operation failed");
+          return;
+        }
+
+        editing = false;
+        document.getElementById("id").disabled = false;
+        document.getElementById("id").value = "";
+        document.getElementById("name").value = "";
+        document.getElementById("basic").value = "";
+        load();
+      }
+
+      function edit(id, name, basic) {
+        document.getElementById("id").value = id;
+        document.getElementById("id").disabled = true;
+        document.getElementById("name").value = name;
+        document.getElementById("basic").value = basic;
+        editing = true;
+      }
+
+      async function del(id) {
+        await fetch("/employees/" + encodeURIComponent(id), {
+          method: "DELETE",
+        });
+        load();
+      }
+
+      load();
+    </script>
+  </body>
+</html>
